@@ -4,6 +4,7 @@ import {
   FormGroup,
   IconButton,
   Switch,
+  Tooltip,
 } from "@mui/material";
 import React from "react";
 import logo from "../../image/20602d43cc993811e5a6bd1886af4f33.png";
@@ -18,8 +19,10 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import { useAuthContext } from "../../context/AuthContext";
 
 const NavbarTest = () => {
+  const { user } = useAuthContext();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -92,7 +95,11 @@ const NavbarTest = () => {
     <Box id="test_navbar">
       <Box className="container">
         <Box className="test_navbar">
-          <img src={logo} alt="test_navbar" />
+          <img
+            style={{ width: "65px", height: "20px" }}
+            src={logo}
+            alt="test_navbar"
+          />
           <Box className="test_navbar_nav">
             <Box className="test_nav_link">
               <IconButton onClick={() => navigate("/admin")}>
@@ -108,7 +115,7 @@ const NavbarTest = () => {
               <Link>Customise</Link>
               <Link>SNKRS</Link>
             </Box>
-            <Box className="test_navbar_icons">
+            <Box sx={{ alignItems: "center" }} className="test_navbar_icons">
               <Search sx={{ background: "#f5f5f5", borderRadius: "100px" }}>
                 <SearchIconWrapper>
                   <SearchIcon />
@@ -123,17 +130,32 @@ const NavbarTest = () => {
               </IconButton>
               <IconButton sx={{ p: "5px 0" }}>
                 <WorkOutlineIcon />
-              </IconButton>{" "}
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
               </IconButton>
+
+              {user ? (
+                <Tooltip title={user.displayName}>
+                  <img
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                    }}
+                    src={user.photoURL}
+                    alt={user.displayName}
+                  />
+                </Tooltip>
+              ) : (
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              )}
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}

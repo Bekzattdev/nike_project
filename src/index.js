@@ -5,13 +5,16 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import MainRoutes from "./routes/MainRoutes";
 import ProductContext from "./context/ProductContext";
+import AuthContext from "./context/AuthContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ProductContext>
-    <BrowserRouter>
-      <App />
-      <MainRoutes />
-    </BrowserRouter>
-  </ProductContext>
+  <AuthContext>
+    <ProductContext>
+      <BrowserRouter>
+        <App />
+        <MainRoutes />
+      </BrowserRouter>
+    </ProductContext>
+  </AuthContext>
 );
